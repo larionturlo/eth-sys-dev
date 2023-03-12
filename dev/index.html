@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <script>
+
+            window.ethIsConnected = (function(w){
+                let loaded = false
+                window.addEventListener("load", (event) => {
+                    loaded = true
+                });
+                return () => new Promise((resolve, reject) => {
+                    setInterval(() => {
+                        if (loaded) {
+                            if (typeof w.ethereum !== 'undefined') {
+                                resolve(w.ethereum.isConnected());
+                            } else {
+                                reject("ethereum is not found")
+                            }
+                        }
+                    }, 10);
+                });
+            })(window)
+
+        </script>
+        <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="z" data-bin="dev"/>
+        
+    </body>
+</html>
